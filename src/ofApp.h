@@ -59,11 +59,12 @@ public:
     
     float n,nn;
     
+    
     float  a,b;
 //    円のx,y座標
     float aa,bb;
 //    円のx,yのスピード
     bool  change;
     
-    ofRectangle rectangle;
+    ofRectangle rectangle1,rectangle2;
 };

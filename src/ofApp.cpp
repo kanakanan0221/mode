@@ -52,7 +52,7 @@ void ofApp::setup(){
     manbo.loadImage("manboo.png");
     end.loadImage("end.png");
     same.loadImage("same.png");
-    neko.loadImage("neko.pmg");
+    neko.loadImage("neko.png");
         mode  = 0;
     
     ofSetFrameRate(100);
@@ -66,8 +66,7 @@ void ofApp::setup(){
     n =0;
     nn= 10;
     
-    rectangle.set(a,b , same.getWidth()*1.5, same.getHeight()*1.5);//座標、幅、高さをセット
-
+   
     
     //    font.loadFont(<#string filename#>, <#int fontsize#>)
     
@@ -160,9 +159,12 @@ void ofApp::draw(){
     ofSetColor(30,60,255);
 //    ofCircle( a,b ,10);
     same.draw(a,b , same.getWidth()*1.5, same.getHeight()*1.5);
-    neko.draw(n, 500, neko.getWidth(), neko.getHeight());
+    neko.draw(n, a, neko.getWidth(), neko.getHeight());
+    rectangle1.set(a,b , same.getWidth()*1.5, same.getHeight()*1.5);//座標、幅、高さをセット
+    rectangle2.set(n,a , neko.getWidth(), neko.getHeight());
 
-//    
+//    ofCircle(n, 500, 10);
+//
 //    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
 //    ofScale(-1, 1);
 //    ofRotateZ(180);
@@ -229,13 +231,22 @@ void ofApp::draw(){
                 end.draw(ofGetWidth()/2, ofGetHeight()/2);
                
             }
+            if (rectangle1.inside.(manbo)) {//もし、マウスがrectangleの中だったら
+                cout << "画像の中"<< endl;
+                mode = 1;
+            }
+            if (rectangle2.inside(manbo)) {//もし、マウスがrectangleの中だったら
+                cout << "画像の中"<< endl;
+                mode = 1;
+            }
+
             
         }
     }
     cam.end();
     
-    same.draw(rectangle);
-//    
+//    same.draw(rectangle);
+//
 //    // ----------音の波形を描画-----------
 //    ofSetColor(245, 58, 135);//波形の色を指定
 //    ofSetLineWidth(3);//線の幅を指定
@@ -281,7 +292,11 @@ void ofApp::keyPressed(int key){
     if(key == 'b'){
         bb++;
     }
-   
+
+    if(key == 'n'){
+        nn++;
+    }
+
 //    if(key =='x'){
 //        same.draw.clear();
 //    }
@@ -306,10 +321,14 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    if (rectangle.inside(x, y)) {//もし、マウスがrectangleの中だったら
-        cout << "画像の中"<< endl;
-        mode = 1;
-    }
+//    if (rectangle1.inside(x, y)) {//もし、マウスがrectangleの中だったら
+//        cout << "画像の中"<< endl;
+//        mode = 1;
+//    }
+//    if (rectangle2.inside(x, y)) {//もし、マウスがrectangleの中だったら
+//        cout << "画像の中"<< endl;
+//        mode = 1;
+//    }
 
 }
 

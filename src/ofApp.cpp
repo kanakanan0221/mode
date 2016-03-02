@@ -1,4 +1,6 @@
 #include "ofApp.h"
+#include <math.h>
+using namespace std;
 
 
 //--------------------------------------------------------------
@@ -8,10 +10,7 @@ void ofApp::setup(){
     ofSetFrameRate(60);
     ofBackground(0, 0, 0);
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-    
-//    img.loadImage("ÂêçÁß∞Êú™Ë®≠ÂÆö 6.png");
-    //    p.setIntialCondition(ofGetWidth()/2, ofGetHeight()/2, ofRandom(-10,10), ofRandom(-10,10));
-    //
+ 
     cam.setOrientation(ofPoint(-20,0,0));
     
     glEnable(GL_DEPTH_TEST);
@@ -19,13 +18,11 @@ void ofApp::setup(){
     
     leap.open();
     
-    //    manbo.loadImage("manbo.gif");
     
     mode = 0;
+   
+    change = true;
     
-    //
-    //    img.loadImage("ÂêçÁß∞Êú™Ë®≠ÂÆö 6.png");
-    //    p.setIntialCondition(ofGetWidth()/2, ofGetHeight()/2, ofRandom(-10,10), ofRandom(-10,10));
     
     cam.setOrientation(ofPoint(-20,0,0));
     
@@ -33,23 +30,51 @@ void ofApp::setup(){
     glEnable(GL_NORMALIZE);
     
     leap.open();
+    
+    
+//    心拍数的演出
+    sound.loadSound("pikumin.mp3");
+    sound.setLoop(true);
+    sound.setVolume(0.5);
+
+    sound.play();
+    
+    
+//    ofSetFrameRate(100);
+//    elapsedTime=0;
+//    
+//    int bufferSize =256;
+//    left.assign(bufferSize, 0.0);
+//    soundstream.setup(this, 0, 2, 44100, bufferSize,4);
+//    
+//画像など
     
     manbo.loadImage("manboo.png");
     end.loadImage("end.png");
-    mode  = 0;
+    same.loadImage("same.png");
+    neko.loadImage("neko.pmg");
+        mode  = 0;
+    
+    ofSetFrameRate(100);
+    
+    a =0;
+    b =0;
+    
+    aa=5;
+    bb=5;
+    
+    n =0;
+    nn= 10;
+    
+    rectangle.set(a,b , same.getWidth()*1.5, same.getHeight()*1.5);//座標、幅、高さをセット
+
+    
     //    font.loadFont(<#string filename#>, <#int fontsize#>)
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    //    for(int i = 0; i<particles.size(); i++){
-    //    particles[i].resetForce();
-    //        particles[i].addForce(0, 0.1);
-    //    particles[i].addDampingFoece();
-    //    particles[i].update();
-    //    }
-    
     
     simpleHands = leap.getSimpleHands();
     if (leap.isFrameNew() && simpleHands.size() ) {
@@ -85,120 +110,65 @@ void ofApp::update(){
                 fingerPos.push_back(tip);
                 
             }
-            
+            imgX = fingerPos.at(7).x;
+            imgY = fingerPos.at(7).y;
         }
         
     }
     leap.markFrameAsOld();
     
-    if(manbo.getWidth() > 1024  || manbo.getWidth() < 0){
-        mode==1;
-    }else if(manbo.getHeight()>768 || manbo.getHeight()<0){
-        mode==1;
+//    if(imgX > 1024  || imgX < 0){
+//        mode=1;
+//    }else if(imgY>768 || imgY<0){
+//        mode=1;
+//    }
+   
+    
+    a = a +aa;
+    
+    b = b + bb;
+    
+    n = n+nn;
+    
+    if(a<0 || a>ofGetWidth()){
+        aa= -aa;
+        
+    }
+    
+    if(b<0 || b>ofGetHeight()){
+       bb = -bb;
+        
+    }
+    
+    if(n<0 || n>ofGetWidth()){
+        nn= -nn;
+        
     }
     
     
+    
+    
+    volume = ofSoundGetSpectrum(GetPrecision);
+    
+//    elapsedTime++;
     
     
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
-    //
-    //       string message = "current particle num = "+ ofToString(particles.size(),0);
-    //    ofDrawBitmapString(message, 20,20);
-    //    ofDisableDepthTest();
-    //
-    //    for(int i = 0; i < particles.size(); i++){
-    //        float posx = particles[i].pos.x - 16;
-    //        float posy = particles[i].pos.y - 16;
-    //        img.draw(posx,posy);
-    //
-    //
-    //    }
-    //
-    //    if(fingerPos.size() !=0 ){
-    //
-    //        Particle myParticle;
-    //        float vx = ofRandom(-10,10);
-    //        float vy = ofRandom(-10,10);
-    //
-    //
-    //        myParticle.setIntialCondition(fingerPos.at(7).x,fingerPos.at(7).y, vx, vy);
-    //        cout << " x : " << fingerPos.at(7).x << endl;
-    //        cout << " y : " <<  fingerPos.at(7).y<< endl;
-    //        cout << " vx : " << vx << endl;
-    //        cout << " vy : " <<vy << endl;
-    //        =======
-    //    string message = "current particle num = "+ ofToString(particles.size(),0);
-    //    ofDrawBitmapString(message, 20,20);
-    
-    //    for(int i = 0; i < particles.size(); i++){
-    //        float posx = particles[i].pos.x - 16;
-    //        float posy = particles[i].pos.y - 16;
-    //        img.draw(posx,posy);
-    //
-    //
-    //    }
-    //
-    //    Particle myParticle;
-    //    float vx = ofRandom(-1,1);
-    //    float vy = ofRandom(-1,1);
-    ////    myParticle.setIntialCondition(x, y, vx, vy);
-    //
-    //    particles.push_back(myParticle);
-    //
-    
-    //        fingerPosの値が一番はじめのものしか入らない
-    //        x、yの所をかえてみてもだめ
-    //        この前leapmotionの指の丸がでなかった際にupdateの所が間違えていたためそこも確認したがとくに異常なし
-    
-    
-    //        particles.push_back(myParticle);
-    //        particles.pop_back();
-    
-    
-    //    }
-    //        else if(fingerPos.size() >=1 ){
-    //
-    //        Particle myParticle;
-    //        float vx = ofRandom(-10,10);
-    //        float vy = ofRandom(-10,10);
-    //
-    //
-    //        myParticle.setIntialCondition(fingerPos.at(27).x,fingerPos.at(27).y, vx, vy);
-    //        cout << " x : " << fingerPos.at(27).x << endl;
-    //        cout << " y : " <<  fingerPos.at(27).y<< endl;
-    //
-    //
-    //        particles.push_back(myParticle);
-    //
-    //
-    //    }
-    //        myParticle.setIntialCondition(x, y, vx, vy);
-    
-    
-    //       ofBackground(0, 0,0);
-    
-    //       ofBackground(0);
-    //    cam.begin();
-    //
-    //    Particle myParticle;
-    //    float vx = ofRandom(-1,1);
-    //    float vy = ofRandom(-1,1);
-    ////    ( fingerPos.at(7)  , img.getWidth(), img.getHeight());
-    //    particles.push_back(myParticle);
-    //
-    //
-    
-    
-    
-    
-    
-    
-    
-    //    manbo.draw(mouseX, mouseY, manbo.getWidth(), manbo.getHeight());
+    ofSetColor(30,60,255);
+//    ofCircle( a,b ,10);
+    same.draw(a,b , same.getWidth()*1.5, same.getHeight()*1.5);
+    neko.draw(n, 500, neko.getWidth(), neko.getHeight());
+
+//    
+//    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+//    ofScale(-1, 1);
+//    ofRotateZ(180);
+//    
+  cam.begin();
+//     cout << "cam" << cam  <<endl;
     
     
     for (int i = 0; i <simpleHands.size(); i++) {
@@ -208,8 +178,22 @@ void ofApp::draw(){
             if(mode == 0){
                 for (int i = 0; i <simpleHands.size(); i++) {
                     for (int f =0; f<5; f++) {
+                        if(((fingerPos.at(7).x >-130)&&(fingerPos.at(7).x <-110)) && ((fingerPos.at(7).y>-70)&&(fingerPos.at(7).y>-50))){
+                            
+                            
+                            manbo.draw(ofPoint( fingerPos.at(7)) , manbo.getWidth()/2, manbo.getHeight()/2);
+//                            はじめに画像の中心にfinger7がきたらスタートにしたい
+                            cout << "finger6:"<<fingerPos.at(7).x<<endl;
+                           
+
+                        }
+                        cout << "getwidth :"<<ofGetWidth()/2-100<<endl;
+                        cout << "finger7-x:"<<fingerPos.at(7).x<<endl;
+                        cout << "finger7-y:"<<fingerPos.at(7).y<<endl;
+
                         
-                        manbo.draw(ofPoint( fingerPos.at(7) ) , manbo.getWidth(), manbo.getHeight());
+
+//                        manbo.draw(ofPoint( fingerPos.at(7) ) , manbo.getWidth(), manbo.getHeight());
                         
                         ofSetColor(0, 255, 0);
                         ofDrawSphere(handPos.at(i), 20);
@@ -217,17 +201,17 @@ void ofApp::draw(){
                         
                         ofSetColor(255);
                         ofDrawSphere(fingerPos.at(20*i+4*f+0),10);
-                        cout << " ‰∏≠ÂøÉ„Åã„Çâ0 : " << fingerPos.at(20*i+4*f+0) << endl;
+//                        cout << " 中心から０ : " << fingerPos.at(20*i+4*f+0) << endl;
                         
                         
                         ofSetColor(200);
                         ofDrawSphere(fingerPos.at(20*i+4*f+1),10);
-                        cout << " ‰∏≠ÂøÉ„Åã„Çâ1 : " << fingerPos.at(20*i+4*f+1) << endl;
+//                        cout << " 中心から１: " << fingerPos.at(20*i+4*f+1) << endl;
                         
                         
                         ofSetColor(155);
                         ofDrawSphere(fingerPos.at(20*i+4*f+2),10);
-                        cout << " ‰∏≠ÂøÉ„Åã„Çâ2 : " << fingerPos.at(20*i+4*f+2) << endl;
+//                        cout << " 中心から２ : " << fingerPos.at(20*i+4*f+2) << endl;
                         
                         
                         ofSetColor(100);
@@ -238,19 +222,51 @@ void ofApp::draw(){
                         ofLine(fingerPos.at(20*i+4*f+2), fingerPos.at(20*i+4*f+3));
                     }
                 }
+//                cout << "finger7 :"<<fingerPos.at(7).x<<endl;
+//                cout << "wide : :"<<ofGetHeight()/2<<endl;
+
             }else if (mode == 1){
                 end.draw(ofGetWidth()/2, ofGetHeight()/2);
+               
             }
             
         }
     }
     cam.end();
     
-    
+    same.draw(rectangle);
+//    
+//    // ----------音の波形を描画-----------
+//    ofSetColor(245, 58, 135);//波形の色を指定
+//    ofSetLineWidth(3);//線の幅を指定
+//    slide++;//波形をずらしていく変数をインクリメント if(slide==130)slide=0;//130ずれたらリセット
+//    ofBeginShape();//点を結んだ集合を以下で描画
+//    for (unsigned int i = 0; i < left.size(); i++){//左チャンネルの配列が終わるまで描画
+//        //第一引数はx座標,第二引数はy座標(leftの配列の値を表現)
+//        ofVertex(i*10, 500 -left[i+slide]*3000.0f);
+//    }
+//    ofEndShape(false);//点の集合の終わり
     
 }
 
 void ofApp::exit(){
+    
+    
+  
+    
+}
+///---------------------------以下音の入力イベント----------------------------
+//void ofApp::audioIn(float * input, int bufferSize, int nChannels){
+//    if(elapsedTime%8==0){
+//        for(int i = 0; i< bufferSize; i++){
+//            left[i]   = input[i*2]*0.5;
+//        }
+//    }
+//    
+//    
+//    
+//}
+int ofApp::main(){
     
     
     
@@ -258,22 +274,18 @@ void ofApp::exit(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-//      if (key =='c') {
-//        
-//        particles.clear();
-//    }
-//    
-//    
+    if(key == 'a'){
+        aa++;
+    }
     
- 
-    //    if (key =='c') {
-    //
-    //        particles.clear();
-    //    }
-    //    if (key =='f') {
-    //        ofToggleFullscreen();
-    //    }
-        
+    if(key == 'b'){
+        bb++;
+    }
+   
+//    if(key =='x'){
+//        same.draw.clear();
+//    }
+    
 }
 
 //--------------------------------------------------------------
@@ -289,28 +301,16 @@ void ofApp::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
     
-    //    Particle myParticle;
-    //    float vx = ofRandom(-1,1);
-    //        float vy = ofRandom(-1,1);
-    //     myParticle.setIntialCondition(x, y, vx, vy);
-    //     particles.push_back(myParticle);
-    //
-    
+       
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    //    particles.clear();
-    //    for(int i = 0; i<NUM; i++){
-    //        Particle myParticle;
-    //
-    //        float vx = ofRandom(-10,10);
-    //        float vy = ofRandom(-10,10);
-    //        myParticle.setIntialCondition(x, y, vx, vy);
-    //
-    //        particles.push_back(myParticle);
-    //
-    //    }
+    if (rectangle.inside(x, y)) {//もし、マウスがrectangleの中だったら
+        cout << "画像の中"<< endl;
+        mode = 1;
+    }
+
 }
 
 //--------------------------------------------------------------

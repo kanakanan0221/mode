@@ -27,6 +27,7 @@ public:
     
     
     void exit();
+    int main();
     
     ofxLeapMotion leap;
     vector <ofxLeapMotionSimpleHand> simpleHands;
@@ -37,16 +38,32 @@ public:
     vector<ofPoint> handPos;
     ofImage manbo;
     
-  
-//    ofImage manbo;
     
-//    vector <Particle> particles;
-//    ofImage img;
+//    心拍数的演出
+    ofSoundPlayer sound;
+    int GetPrecision=1;
+    float *volume;
     
-//    int mode;
-      //    vector <Particle> particles;
-    //    ofImage img;
-    
+//    void audioIn(float *input,int bufferSize,int nChannels);
+//    vector<float> left;
+//    ofSoundStream soundstream;
+//    
+//    int slide;
+//    int elapsedTime;
+//    int red,green,blue;
+//    
+// 魚系
     int mode;
-    ofImage end;
+    ofImage end,same,neko;
+    float imgX, imgY;
+    
+    float n,nn;
+    
+    float  a,b;
+//    円のx,y座標
+    float aa,bb;
+//    円のx,yのスピード
+    bool  change;
+    
+    ofRectangle rectangle;
 };
